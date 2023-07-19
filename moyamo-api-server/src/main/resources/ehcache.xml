@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true" monitoring="autodetect" dynamicConfig="true">
+
+    <diskStore path="java.io.tmpdir/ehcache" />
+
+    <defaultCache maxEntriesLocalHeap="10000" eternal="false"
+                  timeToIdleSeconds="10" timeToLiveSeconds="10" diskSpoolBufferSizeMB="30"
+                  maxEntriesLocalDisk="100000" diskExpiryThreadIntervalSeconds="10"
+                  memoryStoreEvictionPolicy="LRU" statistics="true">
+        <persistence strategy="localTempSwap" />
+    </defaultCache>
+
+    <cache name="user_select_by_access_token" maxEntriesLocalHeap="10000" eternal="false"
+                  timeToIdleSeconds="10" timeToLiveSeconds="60" diskSpoolBufferSizeMB="30"
+                  maxEntriesLocalDisk="100000" diskExpiryThreadIntervalSeconds="10"
+                  memoryStoreEvictionPolicy="LRU" statistics="true">
+        <persistence strategy="localTempSwap" />
+    </cache>
+
+    <cache name="login_user" maxEntriesLocalHeap="50000" eternal="false"
+           timeToIdleSeconds="3600" timeToLiveSeconds="3600" diskSpoolBufferSizeMB="30"
+           maxEntriesLocalDisk="100000" diskExpiryThreadIntervalSeconds="3600"
+           memoryStoreEvictionPolicy="LRU" statistics="true">
+        <persistence strategy="localTempSwap" />
+    </cache>
+
+    <cache name="home_total" maxEntriesLocalHeap="10" eternal="false"
+           timeToIdleSeconds="10" timeToLiveSeconds="10" diskSpoolBufferSizeMB="10"
+           maxEntriesLocalDisk="100" diskExpiryThreadIntervalSeconds="10"
+           memoryStoreEvictionPolicy="LRU" statistics="true">
+        <persistence strategy="localTempSwap" />
+    </cache>
+
+    <cache name="home_total_long" maxEntriesLocalHeap="10" eternal="false"
+           timeToIdleSeconds="1200" timeToLiveSeconds="1200" diskSpoolBufferSizeMB="10"
+           maxEntriesLocalDisk="100" diskExpiryThreadIntervalSeconds="1200"
+           memoryStoreEvictionPolicy="LRU" statistics="true">
+        <persistence strategy="localTempSwap" />
+    </cache>
+
+    <cache name="home_sub" maxEntriesLocalHeap="10" eternal="false"
+           timeToIdleSeconds="1200" timeToLiveSeconds="1200" diskSpoolBufferSizeMB="20"
+           maxEntriesLocalDisk="100" diskExpiryThreadIntervalSeconds="1200"
+           memoryStoreEvictionPolicy="LRU" statistics="true">
+        <persistence strategy="localTempSwap" />
+    </cache>
+
+    <cache name="home_order" maxEntriesLocalHeap="10" eternal="false"
+           timeToIdleSeconds="10" timeToLiveSeconds="10" diskSpoolBufferSizeMB="1"
+           maxEntriesLocalDisk="100" diskExpiryThreadIntervalSeconds="10"
+           memoryStoreEvictionPolicy="LRU" statistics="true">
+        <persistence strategy="localTempSwap" />
+    </cache>
+
+    <cache name="ranking" maxEntriesLocalHeap="10" eternal="false"
+           timeToIdleSeconds="1200" timeToLiveSeconds="1200" diskSpoolBufferSizeMB="1"
+           maxEntriesLocalDisk="100" diskExpiryThreadIntervalSeconds="1200"
+           memoryStoreEvictionPolicy="LRU" statistics="true">
+        <persistence strategy="localTempSwap" />
+    </cache>
+
+</ehcache>

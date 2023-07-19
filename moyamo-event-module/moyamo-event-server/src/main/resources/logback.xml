@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+    <!-- 변수 지정 -->
+    <property name="LOG_DIR" value="logs" />
+    <property name="LOG_PATH_NAME" value="${LOG_DIR}/event.log" />
+
+    <!-- FILE Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH_NAME}</file>
+        <!-- 일자별로 로그파일 적용하기 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH_NAME}.%d{yyyyMMdd}.gz</fileNamePattern>
+            <maxHistory>60</maxHistory> <!-- 일자별 백업파일의 보관기간 -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>[Rest][%d{yyyy-MM-dd HH:mm:ss}][%-5p][%F][%M\(%L\)] : %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[Rest][%d{yyyy-MM-dd HH:mm:ss}][%highlight(%-5level)][%logger{36}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNCFILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE" />
+    </appender>
+
+    <appender name="ASYNCSTDOUT" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT" />
+    </appender>
+
+    <logger name="org.springframework.web.filter" level="DEBUG" additivity="false">
+        <appender-ref ref="ASYNCSTDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+
+    <springProfile name="dev">
+        <appender name="CONSOLE" class="..."></appender>
+        <root>
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <logger name="net.infobank.moyamo" level="INFO" additivity="false">
+        <appender-ref ref="ASYNCSTDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+
+    <!-- TRACE > DEBUG > INFO > WARN > ERROR, 대소문자 구분 안함 -->
+    <!-- profile 을 읽어서 appender 을 설정할수 있다.(phase별 파일을 안만들어도 되는 좋은 기능) -->
+    <springProfile name="local">
+        <root level="INFO">
+            <!--<appender-ref ref="FILE" />-->
+            <appender-ref ref="STDOUT" />
+        </root>
+    </springProfile>
+
+    <springProfile name="develop">
+        <root level="INFO">
+            <appender-ref ref="FILE" />
+<!--        <appender-ref ref="STDOUT" />-->
+        </root>
+    </springProfile>
+
+    <springProfile name="product">
+        <root level="INFO">
+            <appender-ref ref="FILE" />
+<!--            <appender-ref ref="STDOUT" />-->
+        </root>
+    </springProfile>
+  <!--  <root level="INFO">
+&lt;!&ndash;        <appender-ref ref="FILE" />&ndash;&gt;
+        <appender-ref ref="STDOUT" />
+    </root>-->
+</configuration>

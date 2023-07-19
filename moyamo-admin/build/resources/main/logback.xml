@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+   <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+   <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+   <property name="LOG_DIR" value="logs" />
+   <property name="LOG_PATH_NAME" value="${LOG_DIR}/moyamo-admin.log" />
+
+   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+       <file>${LOG_PATH_NAME}</file>
+       <!-- 일자별로 로그파일 적용하기 -->
+       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+           <fileNamePattern>${LOG_PATH_NAME}.%d{yyyyMMdd}.gz</fileNamePattern>
+           <maxHistory>60</maxHistory> <!-- 일자별 백업파일의 보관기간 -->
+       </rollingPolicy>
+       <encoder>
+           <pattern>[Admin][%d{yyyy-MM-dd HH:mm:ss}][%-5p][%F][%M\(%L\)] : %m%n</pattern>
+       </encoder>
+   </appender>
+
+   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+       <layout class="ch.qos.logback.classic.PatternLayout">
+           <pattern>[Admin][%d{yyyy-MM-dd HH:mm:ss}][%-5p][%F][%M\(%L\)] : %m%n</pattern>
+       </layout>
+   </appender>
+
+   <appender name="ASYNCFILE" class="ch.qos.logback.classic.AsyncAppender">
+       <appender-ref ref="FILE" />
+   </appender>
+
+   <appender name="ASYNCSTDOUT" class="ch.qos.logback.classic.AsyncAppender">
+       <appender-ref ref="STDOUT" />
+   </appender>
+
+   <logger name="org.springframework.web.filter" level="INFO" additivity="false">
+       <appender-ref ref="ASYNCSTDOUT" />
+       <appender-ref ref="FILE" />
+   </logger>
+
+   <root level="INFO">
+       <appender-ref ref="FILE" />
+       <appender-ref ref="STDOUT" />
+   </root>
+
+    <springProfile name="hji">
+        <root level="INFO">
+            <!--<appender-ref ref="FILE" />-->
+            <appender-ref ref="STDOUT" />
+        </root>
+    </springProfile>
+</configuration>

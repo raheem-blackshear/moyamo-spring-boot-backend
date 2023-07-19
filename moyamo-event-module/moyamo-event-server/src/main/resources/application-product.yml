@@ -1,0 +1,285 @@
+spring.cloud.stream.kafka.streams.binder:
+  brokers: 172.31.46.123 # moyamo-product-kafka
+  configuration:
+    commit.interval.ms: 1000
+
+spring.cloud.stream.kafka.streams.binder.min-partition-count: 4
+spring.cloud.stream.kafka.streams.binder.auto-add-partitions: true
+spring.cloud.stream.kafka.streams.binder.auto-alter-topics: true
+
+spring.cloud.stream.kafka.streams.binder.serdeError: logAndContinue
+
+
+#spring.cloud.stream.kafka.streams.binder.configuration.application.server: localhost:8080
+#spring.cloud.stream.kafka.streams.binder.configuration.default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+#spring.cloud.stream.kafka.streams.binder.configuration.default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+#spring.cloud.stream.kafka.streams.binder.configuration.commit.interval.ms: 1000
+
+
+
+spring.application.name: moyamo-event-worker
+
+
+# consumer 가 추가될때가마 추가해야함
+  #;clinic;total;monitor
+
+spring.cloud.stream.function.definition:
+  eventWorker;questionBadgeWorker;clinicBadgeWorker;boastBadgeWorker;freeBadgeWorker;magazineBadgeWorker;questionRegister;clinicRegister;boastRegister;freeRegister;magazineRegister;newBadgeMonitor;userActivityMonitor;totalStoreJoinWorker;boastWithFreeStoreJoinWorker;badgeToRabbitWorker;userBadgeRegister;direct;rabbit2Kafka
+#spring.cloud.stream.bindings.process-in-0:
+#  destination: moyamo-event-1
+#spring.cloud.stream.bindings.process-in-1:
+#  destination: user-question-detail
+#  #binder: kafka1
+
+spring.cloud.stream.kafka.streams.binder.functions.eventWorker.applicationId: moyamo-event-worker
+spring.cloud.stream.kafka.streams.binder.functions.questionBadgeWorker.applicationId: moyamo-question-badge-worker
+spring.cloud.stream.kafka.streams.binder.functions.clinicBadgeWorker.applicationId: moyamo-clinic-badge-worker
+spring.cloud.stream.kafka.streams.binder.functions.boastBadgeWorker.applicationId: moyamo-boast-badge-worker
+spring.cloud.stream.kafka.streams.binder.functions.freeBadgeWorker.applicationId: moyamo-free-badge-worker
+spring.cloud.stream.kafka.streams.binder.functions.magazineBadgeWorker.applicationId: moyamo-magazine-badge-worker
+spring.cloud.stream.kafka.streams.binder.functions.totalStoreJoinWorker.applicationId: moyamo-total-worker
+spring.cloud.stream.kafka.streams.binder.functions.boastWithFreeStoreJoinWorker.applicationId: moyamo-boast-with-free-worker
+spring.cloud.stream.kafka.streams.binder.functions.badgeToRabbitWorker.applicationId: moyamo-badge2rabbit-worker
+spring.cloud.stream.kafka.streams.binder.functions.userActivityMonitor.applicationId: moyamo-user-activity-monitor-worker
+spring.cloud.stream.kafka.streams.binder.functions.newBadgeMonitor.applicationId: moyamo-new-badge-monitor-worker
+spring.cloud.stream.kafka.streams.binder.functions.clinicRegister.applicationId: moyamo-clinic-regist-worker
+spring.cloud.stream.kafka.streams.binder.functions.questionRegister.applicationId: moyamo-question-regist-worker
+spring.cloud.stream.kafka.streams.binder.functions.boastRegister.applicationId: moyamo-boast-regist-worker
+spring.cloud.stream.kafka.streams.binder.functions.freeRegister.applicationId: moyamo-free-regist-worker
+spring.cloud.stream.kafka.streams.binder.functions.magazineRegister.applicationId: moyamo-magazine-regist-worker
+spring.cloud.stream.kafka.streams.binder.functions.userBadgeRegister.applicationId: moyamo-badge-regist-worker
+
+
+
+spring.cloud.stream.bindings.eventWorker-in-0:
+  destination: moyamo-event
+  group: moyamo-event-worker
+  consumer:
+    nativeDecoding: true
+    keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+    valueSerde: net.infobank.moyamo.domain.badge.serde.Serdes$EventSerde
+
+
+spring.cloud.stream.bindings.eventWorker-out-0:
+  destination: moyamo-question-badge-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.eventWorker-out-1:
+  destination: moyamo-clinic-badge-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.eventWorker-out-2:
+  destination: moyamo-boast-badge-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.eventWorker-out-3:
+  destination: moyamo-free-badge-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.eventWorker-out-4:
+  destination: moyamo-magazine-badge-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.questionBadgeWorker-in-0:
+  destination: moyamo-question-badge-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.questionBadgeWorker-in-1:
+  destination: user-question-store
+spring.cloud.stream.bindings.questionBadgeWorker-in-2:
+  destination: user-badge-store
+
+spring.cloud.stream.bindings.questionBadgeWorker-out-0:
+  destination: moyamo-question-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.clinicBadgeWorker-in-0:
+  destination: moyamo-clinic-badge-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.clinicBadgeWorker-in-1:
+  destination: user-clinic-store
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.clinicBadgeWorker-in-2:
+  destination: user-badge-store
+
+spring.cloud.stream.bindings.clinicBadgeWorker-out-0:
+  destination: moyamo-clinic-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.boastBadgeWorker-in-0:
+  destination: moyamo-boast-badge-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.boastBadgeWorker-in-1:
+  destination: user-boast-store
+spring.cloud.stream.bindings.boastBadgeWorker-in-2:
+  destination: user-badge-store
+spring.cloud.stream.bindings.boastBadgeWorker-out-0:
+  destination: moyamo-boast-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.freeBadgeWorker-in-0:
+  destination: moyamo-free-badge-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.freeBadgeWorker-in-1:
+  destination: user-free-store
+spring.cloud.stream.bindings.freeBadgeWorker-in-2:
+  destination: user-badge-store
+spring.cloud.stream.bindings.freeBadgeWorker-out-0:
+  destination: moyamo-free-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.magazineBadgeWorker-in-0:
+  destination: moyamo-magazine-badge-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.magazineBadgeWorker-in-1:
+  destination: user-magazine-store
+spring.cloud.stream.bindings.magazineBadgeWorker-in-2:
+  destination: user-badge-store
+spring.cloud.stream.bindings.magazineBadgeWorker-out-0:
+  destination: moyamo-magazine-regist-worker
+  group : moyamo-event-worker
+
+
+spring.cloud.stream.bindings.questionRegister-in-0:
+  destination: moyamo-question-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.questionRegister-out-0:
+  destination: user-question-store
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.clinicRegister-in-0:
+  destination: moyamo-clinic-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.clinicRegister-out-0:
+  destination: user-clinic-store
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.boastRegister-in-0:
+  destination: moyamo-boast-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.boastRegister-out-0:
+  destination: user-boast-store
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.freeRegister-in-0:
+  destination: moyamo-free-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.freeRegister-out-0:
+  destination: user-free-store
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.magazineRegister-in-0:
+  destination: moyamo-magazine-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.magazineRegister-out-0:
+  destination: user-magazine-store
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.newBadgeMonitor-in-0:
+  destination: moyamo-question-regist-worker,moyamo-clinic-regist-worker,moyamo-boast-regist-worker,moyamo-free-regist-worker,moyamo-magazine-regist-worker
+  group : moyamo-event-monitoring-worker
+
+spring.cloud.stream.bindings.userActivityMonitor-in-0:
+  destination: user-question-store,user-clinic-store,user-boast-store,user-free-store,user-magazine-store
+  group : moyamo-event-monitoring-worker
+
+
+spring.cloud.stream.bindings.boastWithFreeStoreJoinWorker-in-0:
+  destination: moyamo-boast-regist-worker,moyamo-free-regist-worker
+  group : moyamo-event-worker
+spring.cloud.stream.bindings.boastWithFreeStoreJoinWorker-in-1:
+  destination: user-boast-store
+  group: moyamo-event-worker
+spring.cloud.stream.bindings.boastWithFreeStoreJoinWorker-in-2:
+  destination: user-free-store
+  group: moyamo-event-worker
+spring.cloud.stream.bindings.boastWithFreeStoreJoinWorker-in-3:
+  destination: user-badge-store
+  group: moyamo-event-worker
+spring.cloud.stream.bindings.boastWithFreeStoreJoinWorker-out-0:
+  destination: moyamo-total-regist-worker
+  group: moyamo-event-worker
+
+
+
+spring.cloud.stream.bindings.totalStoreJoinWorker-in-0:
+  destination: moyamo-question-regist-worker,moyamo-clinic-regist-worker,moyamo-boast-regist-worker,moyamo-free-regist-worker,moyamo-magazine-regist-worker
+  group : moyamo-event-worker
+
+spring.cloud.stream.bindings.totalStoreJoinWorker-in-1:
+  destination: user-question-store
+  group: moyamo-event-worker
+
+spring.cloud.stream.bindings.totalStoreJoinWorker-in-2:
+  destination: user-clinic-store
+  group: moyamo-event-worker
+
+spring.cloud.stream.bindings.totalStoreJoinWorker-in-3:
+  destination: user-boast-store
+  group: moyamo-event-worker
+
+spring.cloud.stream.bindings.totalStoreJoinWorker-in-4:
+  destination: user-free-store
+  group: moyamo-event-worker
+
+spring.cloud.stream.bindings.totalStoreJoinWorker-in-5:
+  destination: user-magazine-store
+  group: moyamo-event-worker
+
+spring.cloud.stream.bindings.totalStoreJoinWorker-in-6:
+  destination: user-badge-store
+  group: moyamo-event-worker
+
+spring.cloud.stream.bindings.totalStoreJoinWorker-out-0:
+  destination: moyamo-total-regist-worker
+  group: moyamo-event-worker
+
+spring.rabbitmq.addresses: ec2-15-165-135-64.ap-northeast-2.compute.amazonaws.com:5672
+spring.rabbitmq.username: moyamo
+spring.rabbitmq.password: moyamopw
+
+spring.cloud.stream.bindings.direct-out-0:
+  destination: event
+  consumer.bindQueue: true
+  binder: rabbit
+  producer.exchangeType: direct
+
+#spring.cloud.stream.bindings.direct:
+#  producer.exchangeType: direct
+#  binder: rabbit
+#  destination: event
+
+spring.cloud.stream.bindings.rabbit2Kafka-in-0:
+  destination: event
+  consumer.exchangeType: direct
+  durableSubscription: true
+  group: event-group
+  binder : rabbit
+
+spring.cloud.stream.bindings.rabbit2Kafka-out-0:
+  destination: moyamo-event
+  binder : kafka
+
+spring.cloud.stream.bindings.badgeToRabbitWorker-in-0:
+  destination: moyamo-question-regist-worker,moyamo-clinic-regist-worker,moyamo-magazine-regist-worker,moyamo-total-regist-worker,moyamo-free-regist-worker
+  group : moyamo-badge-worker
+
+spring.cloud.stream.bindings.badgeToRabbitWorker-out-0:
+  destination: moyamo-badge-regist-worker
+  group: moyamo-event-worker
+
+spring.cloud.stream.bindings.userBadgeRegister-in-0:
+  destination: moyamo-badge-regist-worker
+  group: moyamo-event-worker
+
+spring.cloud.stream.bindings.userBadgeRegister-out-0:
+  destination: user-badge-store
+  group: moyamo-event-worker
+
+
+logging.level.org.springframework.web.reactive.function.client.ExchangeFunctions: TRACE
+server.port: 8085
+server.shutdown: graceful
+
+logging.level.net.infobank.moyamo: INFO
+spring.kafka.bootstrap-servers: 172.31.46.123:9092

@@ -1,0 +1,4 @@
+[Rest][2022-08-05 00:14:15][INFO ][StartupInfoLogger.java][logStarting(55)] : Starting MoyamoApplication using Java 1.8.0_333 on WIN-O39P2TKSUJL with PID 4604 (D:\MustFinTech\moyamo\moyamo-api-server\build\classes\java\main started by Administrator in D:\MustFinTech\moyamo)
+[Rest][2022-08-05 00:14:15][INFO ][SpringApplication.java][logStartupProfileInfo(664)] : No active profile set, falling back to default profiles: default
+[Rest][2022-08-05 06:56:30][INFO ][StartupInfoLogger.java][logStarting(55)] : Starting MoyamoApplication using Java 1.8.0_333 on WIN-O39P2TKSUJL with PID 716 (D:\MustFinTech\moyamo\moyamo-api-server\build\classes\java\main started by Administrator in D:\MustFinTech\moyamo)
+[Rest][2022-08-05 06:56:30][INFO ][SpringApplication.java][logStartupProfileInfo(668)] : The following profiles are active: pys

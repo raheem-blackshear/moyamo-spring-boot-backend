@@ -1,0 +1,37 @@
+rootProject.name = 'moyamo-parent'
+
+
+include ':moyamo', //moyamo-api-server
+        ':moyamo-event-domain',
+        ':moyamo-common',
+        ':moyamo-admin',
+        ':moyamo-scheduler'
+
+// 디렉토리의 하위 프로젝트를 가져온다.
+// https://blog.sapzil.org/2018/06/20/gradle-subproject-grouping/
+//project(':moyamo-event-module').setProjectDir(new File(settingsDir, '../moyamo-event-module'))
+
+// for (project in rootProject.children) {
+//     project.projectDir = file("../moyamo-event-module/${project.name}")
+// }
+
+// project(':moyamo').setProjectDir(new File(settingsDir, '../moyamo-api-server'))
+
+// project(':moyamo-common').setProjectDir(new File(settingsDir, '../moyamo-common'))
+
+// project(':moyamo-admin').setProjectDir(new File(settingsDir, '../moyamo-admin'))
+
+// project(':moyamo-scheduler').setProjectDir(new File(settingsDir, '../moyamo-scheduler'))
+
+for (project in rootProject.children) {
+    project.projectDir = file("./moyamo-event-module/${project.name}")
+}
+
+project(':moyamo').setProjectDir(new File(settingsDir, './moyamo-api-server'))
+
+project(':moyamo-common').setProjectDir(new File(settingsDir, './moyamo-common'))
+
+project(':moyamo-admin').setProjectDir(new File(settingsDir, './moyamo-admin'))
+
+project(':moyamo-scheduler').setProjectDir(new File(settingsDir, './moyamo-scheduler'))
+
